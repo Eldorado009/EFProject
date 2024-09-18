@@ -8,7 +8,6 @@ namespace Repository.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<GetArchiveCategory> GetArchiveCategories { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=MSI\\SQLEXPRESS;Database=EFProjectDb;Trusted_Connection=True;");

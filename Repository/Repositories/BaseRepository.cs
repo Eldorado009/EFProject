@@ -12,24 +12,42 @@ namespace Repository.Repositories
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
-        public Task CreateAsync(T entity)
+        private readonly AppDbContext _context;
+        private readonly DbSet<T> _dbSet;
+
+        public BaseRepository()
         {
-            throw new NotImplementedException();
+            _context = new AppDbContext();
+            _dbSet = _context.Set<T>();
         }
 
-        public Task DeleteAsync(T entity)
+        public async Task CreateAsync(T entity)
         {
-            throw new NotImplementedException();
+            await _dbSet.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<T>> GetAllAsync()
+        public async Task DeleteAsync(T entity)
         {
-            throw new NotImplementedException();
+            _dbSet.Remove(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public Task UpdateAsync(T entity)
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _dbSet.ToListAsync();
+        }
+
+        public async Task<T> GetByIdAsync(int id)
+        {
+            return await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task UpdateAsync(T entity)
+        {
+            var categoryId = await _dbSet.FirstOrDefaultAsync(x=>x.Id == entity.Id);
+            _dbSet.Update(categoryId);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -8,5 +8,6 @@ namespace Repository.Repositories.Intefaces
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
         Task<IEnumerable<T>> GetAllAsync();
+        Task<T> GetByIdAsync(int id);
     }
 }
