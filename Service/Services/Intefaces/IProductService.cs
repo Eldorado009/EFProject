@@ -5,10 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository.Repositories.Intefaces
+namespace Service.Services.Intefaces
 {
-    public interface IProductRepository : IBaseRepository<Product>
+    public interface IProductService
     {
+        Task CreateAsync(Product product);
+        Task DeletedAsync(int id);
+        Task UpdateAsync(int id, Category category);
+        Task<Product> GetByIdAsync(int id);
+        Task<IEnumerable<Product>> GetAllAsync();
         Task<IEnumerable<Product>> SearchByNameAsync(string searchName);
         Task<IEnumerable<Product>> FilterByCategoryName(string categoryName);
         Task<IEnumerable<Product>> GetAllWithCategoryId(int id);

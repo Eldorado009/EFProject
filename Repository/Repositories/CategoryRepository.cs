@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Repositories
 {
-    public class CategoryRepository : BaseRepository<Category>, ICategoryRepository<Category>
+    public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
     {
         private readonly AppDbContext _context;
         private readonly DbSet<Category> _dbSet;
@@ -21,7 +21,7 @@ namespace Repository.Repositories
             _context = new AppDbContext();
             _dbSet = _context.Set<Category>();
         }
-        public async Task<IEnumerable<Category>> GetAllWithProductsAsync(Expression<Func<Category, bool>> expression)
+        public async Task<IEnumerable<Category>> GetAllWithProductsAsync(Expression<Func<Category,bool>> expression)
         {
             return await _dbSet.Where(expression).ToListAsync();
         }

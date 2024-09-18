@@ -5,7 +5,7 @@ using Repository.Repositories.Intefaces;
 
 namespace Repository.Repositories
 {
-    public class ProductRepository : BaseRepository<Product>, IProductRepository<Product>
+    public class ProductRepository : BaseRepository<Product>, IProductRepository
     {
         private readonly AppDbContext _context;
         private readonly DbSet<Product> _dbSet;

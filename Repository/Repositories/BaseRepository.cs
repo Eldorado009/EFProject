@@ -39,10 +39,8 @@ namespace Repository.Repositories
             return await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task UpdateAsync(int id,T entity)
+        public async Task UpdateAsync(T entity)
         {
-            _dbSet.FirstOrDefaultAsync(x=>x.Id == id);
-            var Entities = await _dbSet.FindAsync(entity);
             _dbSet.Update(entity);
             await _context.SaveChangesAsync();
         }
