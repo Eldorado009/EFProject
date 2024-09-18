@@ -2,11 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Repository.Data;
 using Repository.Repositories.Intefaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository.Repositories
 {
@@ -27,9 +22,10 @@ namespace Repository.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(T entity)
+        public async Task DeleteAsync(int id)
         {
-            _dbSet.Remove(entity);
+            var deleteId = await _dbSet.FindAsync(id);
+            _dbSet.Remove(deleteId);
             await _context.SaveChangesAsync();
         }
 
@@ -43,10 +39,11 @@ namespace Repository.Repositories
             return await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task UpdateAsync(T entity)
+        public async Task UpdateAsync(int id,T entity)
         {
-            var categoryId = await _dbSet.FirstOrDefaultAsync(x=>x.Id == entity.Id);
-            _dbSet.Update(categoryId);
+            _dbSet.FirstOrDefaultAsync(x=>x.Id == id);
+            var Entities = await _dbSet.FindAsync(entity);
+            _dbSet.Update(entity);
             await _context.SaveChangesAsync();
         }
     }

@@ -21,9 +21,29 @@ namespace Repository.Repositories
             _context = new AppDbContext();
             _dbSet = _context.Set<Category>();
         }
-        public Task<IEnumerable<Category>> GetAllWithProductsAsync(Expression<Func<Category, bool>> expression)
+        public async Task<IEnumerable<Category>> GetAllWithProductsAsync(Expression<Func<Category, bool>> expression)
         {
-            throw new NotImplementedException();
+            return await _dbSet.Where(expression).ToListAsync();
         }
+
+        public async Task<IEnumerable<Category>> SearchAsync(string searchText)
+        {
+            return await _dbSet.Where(x => x.Name.ToLower()
+                                                 .Trim()
+                                                 .Contains(searchText.ToLower()
+                                                 .Trim()))
+                                                 .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Category>> SortWithCreatedDate(DateTime date)
+        {
+            return await _dbSet.Where(x=>x.CreatedDate >= date)
+                               .OrderBy(x=>x.CreatedDate)
+                               .ToListAsync();
+        }
+
+
+
+
     }
 }
