@@ -26,6 +26,11 @@ namespace Repository.Repositories
             return await _dbSet.Where(expression).ToListAsync();
         }
 
+        public async Task<IEnumerable<Category>> GetArchiveCategories()
+        {
+            return await _dbSet.ToListAsync();
+        }
+
         public async Task<IEnumerable<Category>> SearchAsync(string searchText)
         {
             return await _dbSet.Where(x => x.Name.ToLower()

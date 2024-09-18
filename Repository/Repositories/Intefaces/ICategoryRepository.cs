@@ -8,6 +8,7 @@ namespace Repository.Repositories.Intefaces
         Task<IEnumerable<T>> GetAllWithProductsAsync(Expression<Func<T,bool>> expression);
         Task<IEnumerable<T>> SearchAsync(string searchText);
         Task<IEnumerable<T>> SortWithCreatedDate(DateTime date);
+        Task<IEnumerable<T>> GetArchiveCategories();
 
     }
 }
