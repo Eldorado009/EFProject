@@ -21,7 +21,7 @@ namespace Service.Services
 
         public async Task DeletedAsync(int id)
         {
-            var existCategory = await _categoryRepo.GetByIdAsync(id);
+            await _categoryRepo.GetByIdAsync(id);
             await _categoryRepo.DeleteAsync(id);
         }
 
