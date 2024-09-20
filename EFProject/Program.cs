@@ -1,1 +1,4 @@
-﻿Console.WriteLine("Hello");
+﻿using EFProject.Controllers;
+
+CategoryController categoryController = new CategoryController();
+await categoryController.Delete();
