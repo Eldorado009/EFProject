@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using EFProject.Helpers.Exceptions;
 using Service.Services;
 using Service.Services.Intefaces;
 
@@ -38,41 +39,71 @@ namespace EFProject.Controllers
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw new NotFoundException();
             }
         }
 
         public async Task Delete()
         {
             Console.WriteLine("Add category Id:");
-        DeletedCategory: string idStr = Console.ReadLine();
+            DeletedCategory: string idStr = Console.ReadLine();
             bool IsCorrectFormat = int.TryParse(idStr, out int id);
-            try
+            var data = await _categoryService.GetByIdAsync(id);
+            if (data == null)
             {
-                if (string.IsNullOrWhiteSpace(idStr))
-                {
-                    Console.WriteLine("Invalid input. Please try again:");
-                    goto DeletedCategory;
-                }
-                else if (string.IsNullOrEmpty(idStr))
-                {
-                    Console.WriteLine("Invalid input. Please try again:");
-                    goto DeletedCategory;
-                }
-                else if (idStr.Any(char.IsDigit))
-                {
-                    Console.WriteLine("Invalid input. Please try again:");
-                    goto DeletedCategory;
-                }
-                else
-                {
-                    await _categoryService.DeletedAsync(id);
-                }
+                Console.WriteLine("Data not found! Please try again:");
+                goto DeletedCategory;
             }
-            catch (Exception)
+            if (string.IsNullOrWhiteSpace(idStr))
             {
-                throw new Exception();
+                Console.WriteLine("Invalid input. Please try again:");
+                goto DeletedCategory;
             }
+            if (string.IsNullOrEmpty(idStr))
+            {
+                Console.WriteLine("Invalid input. Please try again:");
+                goto DeletedCategory;
+            }
+            else
+            {
+                await _categoryService.DeletedAsync(id);
+            }
+        }
+        public async Task Update()
+        {
+            Console.WriteLine("Add category Id:");
+            UpdateCategory: string idStr = Console.ReadLine();
+            bool isCorrectFormat = int.TryParse(idStr,out int id);
+            if (!isCorrectFormat || string.IsNullOrWhiteSpace(idStr))
+            {
+                Console.WriteLine("Invalid input. Please try again:");
+                goto UpdateCategory;
+            }
+            var category = await _categoryService.GetByIdAsync(id);
+            if (category == null)
+            {
+                Console.WriteLine("Category Not Found. Please try again:");
+                goto UpdateCategory;
+            }
+            Console.WriteLine($"Id:{category.Id}, Name:{category.Name}");
+            Console.WriteLine("Please old Category name:");
+            UpdateOldCategory: string OldName = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(OldName)||OldName!=category.Name)
+            {
+                Console.WriteLine("Invalid input. Please try again:");
+                goto UpdateOldCategory;
+            }
+            Console.WriteLine("Add new Category name:");
+            
+            UpdateCategoryName: string newName= Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(newName)|| newName.Any(char.IsDigit)||newName==category.Name)
+            {
+                Console.WriteLine("Invalid input. Please try again:");
+                goto UpdateCategoryName;
+            }
+            category.Name = newName;
+            await _categoryService.UpdateAsync(category);
+            Console.WriteLine($"Updated succesful: {category.Name}");
         }
     }
 }

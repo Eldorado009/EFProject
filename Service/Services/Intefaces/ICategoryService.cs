@@ -7,7 +7,7 @@ namespace Service.Services.Intefaces
     {
         Task CreateAsync(Category category);
         Task DeletedAsync(int id);
-        Task UpdateAsync(int id, Category category);
+        Task UpdateAsync(Category category);
         Task <Category> GetByIdAsync(int id);
         Task <IEnumerable<Category>> GetAllAsync();
         Task<IEnumerable<Category>> GetAllWithProductsAsync(Expression<Func<Category, bool>> expression);

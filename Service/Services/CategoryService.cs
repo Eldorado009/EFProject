@@ -55,9 +55,9 @@ namespace Service.Services
             return await _categoryRepo.SortWithCreatedDate(date);
         }
 
-        public async Task UpdateAsync(int id, Category category)
+        public async Task UpdateAsync(Category category)
         {
-            var existName = await _categoryRepo.GetByIdAsync(id);
+            var existName = await _categoryRepo.GetByIdAsync(category.Id);
             existName.Name = category.Name;
             await _categoryRepo.UpdateAsync(existName);
         }
