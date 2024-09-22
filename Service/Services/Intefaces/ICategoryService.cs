@@ -12,7 +12,7 @@ namespace Service.Services.Intefaces
         Task <IEnumerable<Category>> GetAllAsync();
         Task<IEnumerable<Category>> GetAllWithProductsAsync(Expression<Func<Category, bool>> expression);
         Task<IEnumerable<Category>> SearchAsync(string searchText);
-        Task<IEnumerable<Category>> SortWithCreatedDate(DateTime date);
-        Task<IEnumerable<Category>> GetArchiveCategories();
+        Task<IEnumerable<Category>> SortWithCreatedDateAsync(DateTime date);
+        Task<Tuple<IEnumerable<Category>, IEnumerable<ArchiveCategory>>> GetArchiveCategoriesAsync();
     }
 }

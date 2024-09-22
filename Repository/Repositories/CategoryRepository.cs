@@ -15,20 +15,23 @@ namespace Repository.Repositories
     {
         private readonly AppDbContext _context;
         private readonly DbSet<Category> _dbSet;
-
+        private readonly DbSet<ArchiveCategory> _archiveDbSet;
         public CategoryRepository()
         {
             _context = new AppDbContext();
             _dbSet = _context.Set<Category>();
+            _archiveDbSet = _context.ArchiveCategories;
         }
         public async Task<IEnumerable<Category>> GetAllWithProductsAsync(Expression<Func<Category,bool>> expression)
         {
-            return await _dbSet.Where(expression).ToListAsync();
+            return await _dbSet.Include(x=>x.Products).Where(expression).ToListAsync();
         }
 
-        public async Task<IEnumerable<Category>> GetArchiveCategories()
+        public async Task<Tuple<IEnumerable<Category>, IEnumerable<ArchiveCategory>>> GetArchiveCategoriesAsync()
         {
-            return await _dbSet.ToListAsync();
+            var categories = await _dbSet.ToListAsync();
+            var archiveCategories = await _archiveDbSet.ToListAsync();
+            return new Tuple<IEnumerable<Category>, IEnumerable<ArchiveCategory>>(categories, archiveCategories);
         }
 
         public async Task<IEnumerable<Category>> SearchAsync(string searchText)
@@ -40,7 +43,7 @@ namespace Repository.Repositories
                                                  .ToListAsync();
         }
 
-        public async Task<IEnumerable<Category>> SortWithCreatedDate(DateTime date)
+        public async Task<IEnumerable<Category>> SortWithCreatedDateAsync(DateTime date)
         {
             return await _dbSet.Where(x=>x.CreatedDate >= date)
                                .OrderBy(x=>x.CreatedDate)

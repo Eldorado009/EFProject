@@ -16,6 +16,5 @@ namespace Domain.Entities
         public string Color { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
-        public ICollection<User> Users { get; set;}
     }
 }

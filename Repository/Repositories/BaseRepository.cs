@@ -1,4 +1,5 @@
 ﻿using Domain.Common;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Repository.Data;
 using Repository.Repositories.Intefaces;
@@ -9,11 +10,13 @@ namespace Repository.Repositories
     {
         private readonly AppDbContext _context;
         private readonly DbSet<T> _dbSet;
+        private readonly DbSet<ArchiveCategory> _archiveDbSet;
 
         public BaseRepository()
         {
             _context = new AppDbContext();
             _dbSet = _context.Set<T>();
+            _archiveDbSet = _context.ArchiveCategories;
         }
 
         public async Task CreateAsync(T entity)
@@ -24,9 +27,25 @@ namespace Repository.Repositories
 
         public async Task DeleteAsync(int id)
         {
-            var deleteId = await _dbSet.FindAsync(id);
-            _dbSet.Remove(deleteId);
-            await _context.SaveChangesAsync();
+            Category category = new();
+            var deletedId = await _dbSet.FindAsync(id);
+            var archiveCategory = new ArchiveCategory
+            {
+                Id = category.Id,
+                Name = category.Name,
+                CreatedDate = category.CreatedDate,
+                DeletedDate = DateTime.Now
+            };
+            try
+            {
+                await _archiveDbSet.AddAsync(archiveCategory);
+                _dbSet.Remove(deletedId);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{ex.Message}");
+            }
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()

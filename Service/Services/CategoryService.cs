@@ -35,9 +35,9 @@ namespace Service.Services
             return await _categoryRepo.GetAllWithProductsAsync(expression);
         }
 
-        public async Task<IEnumerable<Category>> GetArchiveCategories()
+        public async Task<Tuple<IEnumerable<Category>, IEnumerable<ArchiveCategory>>> GetArchiveCategoriesAsync()
         {
-            return await _categoryRepo.GetArchiveCategories();
+            return await _categoryRepo.GetArchiveCategoriesAsync();
         }
 
         public async Task<Category> GetByIdAsync(int id)
@@ -50,9 +50,9 @@ namespace Service.Services
             return await _categoryRepo.SearchAsync(searchText);
         }
 
-        public async Task<IEnumerable<Category>> SortWithCreatedDate(DateTime date)
+        public async Task<IEnumerable<Category>> SortWithCreatedDateAsync(DateTime date)
         {
-            return await _categoryRepo.SortWithCreatedDate(date);
+            return await _categoryRepo.SortWithCreatedDateAsync(date);
         }
 
         public async Task UpdateAsync(Category category)
