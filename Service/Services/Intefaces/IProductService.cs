@@ -11,7 +11,7 @@ namespace Service.Services.Intefaces
     {
         Task CreateAsync(Product product);
         Task DeletedAsync(int id);
-        Task UpdateAsync(int id, Product product);
+        Task UpdateAsync(Product product);
         Task<Product> GetByIdAsync(int id);
         Task<IEnumerable<Product>> GetAllAsync();
         Task<IEnumerable<Product>> SearchByNameAsync(string searchName);

@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Repository.Repositories;
 using Repository.Repositories.Intefaces;
 using Service.Services.Intefaces;
@@ -8,12 +9,14 @@ namespace Service.Services
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepo;
+
         public ProductService()
         {
             _productRepo = new ProductRepository();
         }
         public async Task CreateAsync(Product product)
         {
+            
             await _productRepo.CreateAsync(product);
         }
 
@@ -63,10 +66,14 @@ namespace Service.Services
             return await _productRepo.SortWithPrice(price);
         }
 
-        public async Task UpdateAsync(int id, Product product)
+        public async Task UpdateAsync(Product product)
         {
-            var existProduct = await _productRepo.GetByIdAsync(id);
+            var existProduct = await _productRepo.GetByIdAsync(product.Id);
             existProduct.Name = product.Name;
+            existProduct.Description = product.Description;
+            existProduct.Price = product.Price;
+            existProduct.Color = product.Color;
+            existProduct.Count = product.Count;
             await _productRepo.UpdateAsync(existProduct);
         }
     }
