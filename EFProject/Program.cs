@@ -2,7 +2,34 @@
 using Domain.Entities;
 using EFProject.Controllers;
 using EFProject.Helpers.Enum;
+UserController userController = new UserController();
+bool isLoggedIn = false;
+while (!isLoggedIn)
+{
+    Console.WriteLine("Please Login:");
+    Console.WriteLine("Press to 1 enter");
+    string? option = Console.ReadLine();
+    int optionNumber;
 
+    bool isInt = int.TryParse(option, out optionNumber);
+    if (isInt)
+    {
+        switch (optionNumber)
+        {
+            case 1:
+                await userController.StartAsync();
+                isLoggedIn = true; 
+                break;
+            default:
+                Console.WriteLine("Please enter a valid option.");
+                break;
+        }
+    }
+    else
+    {
+        Console.WriteLine("Please enter a valid number.");
+    }
+}
 CategoryController categoryController = new CategoryController();
 ProductController productController = new ProductController();
 
