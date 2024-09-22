@@ -48,9 +48,13 @@ namespace Repository.Repositories
                                .ToListAsync();
         }
 
-        public async Task<IEnumerable<Product>> SortWithPrice(decimal price)
+        public async Task<IEnumerable<Product>> SortWithPrice(decimal? maxPrice = null)
         {
-            return await _dbSet.Where(x=>x.Price<=price).OrderBy(x=>x.Price).ToListAsync();
+            if (maxPrice == null)
+            {
+                return await _dbSet.OrderBy(x => x.Price).ToListAsync();
+            }
+            return await _dbSet.Where(x=>x.Price<=maxPrice).OrderBy(x=>x.Price).ToListAsync();
         }
     }
 }

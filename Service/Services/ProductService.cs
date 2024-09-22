@@ -26,7 +26,7 @@ namespace Service.Services
             await _productRepo.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<Product>> FilterByCategoryName(string categoryName)
+        public async Task<IEnumerable<Product>> FilterByCategoryNameAsync(string categoryName)
         {
             return await _productRepo.FilterByCategoryName(categoryName);
         }
@@ -36,7 +36,7 @@ namespace Service.Services
             return await _productRepo.GetAllAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetAllWithCategoryId(int id)
+        public async Task<IEnumerable<Product>> GetAllWithCategoryIdAsync(int id)
         {
             return await _productRepo.GetAllWithCategoryId(id);
         }
@@ -46,7 +46,7 @@ namespace Service.Services
             return await _productRepo.GetByIdAsync(id);
         }
 
-        public async Task<IEnumerable<Product>> SearchByColor(string searchText)
+        public async Task<IEnumerable<Product>> SearchByColorAsync(string searchText)
         {
             return await _productRepo.SearchByColor(searchText);
         }
@@ -56,14 +56,14 @@ namespace Service.Services
             return await _productRepo.SearchByNameAsync(searchName);
         }
 
-        public async Task<IEnumerable<Product>> SortByCreatedDate(DateTime date)
+        public async Task<IEnumerable<Product>> SortByCreatedDateAsync(DateTime date)
         {
             return await _productRepo.SortByCreatedDate(date);
         }
 
-        public async Task<IEnumerable<Product>> SortWithPrice(decimal price)
+        public async Task<IEnumerable<Product>> SortWithPriceAsync(decimal? maxPrice = null)
         {
-            return await _productRepo.SortWithPrice(price);
+            return await _productRepo.SortWithPrice(maxPrice);
         }
 
         public async Task UpdateAsync(Product product)

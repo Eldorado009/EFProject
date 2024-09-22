@@ -307,7 +307,177 @@ namespace EFProject.Controllers
                 goto UpdateProduct;
             }
             await _productService.UpdateAsync(product);
-            Console.WriteLine($"Updated succesful: {product.Name},{product.Count},{product.Price},{product.Description},{product.Color},{product.CategoryId}");
+            Console.WriteLine($"Updated succesful:Name: {product.Name},Count:{product.Count},Price:{product.Price},Description:{product.Description},Color:{product.Color},Category Id:{product.CategoryId}");
+        }
+        public async Task GetByIdAsync()
+        {
+            Console.WriteLine("Add Product Id:");
+        IdProduct: string idStr = Console.ReadLine();
+            bool isCorrectFormat = int.TryParse(idStr, out int id);
+            if (!isCorrectFormat || string.IsNullOrWhiteSpace(idStr))
+            {
+                Console.WriteLine("Invalid input. Please try again:");
+                goto IdProduct;
+            }
+            var product = await _productService.GetByIdAsync(id);
+            if (product == null)
+            {
+                Console.WriteLine("Product Id Not Found. Please try again:");
+                goto IdProduct;
+            }
+            Console.WriteLine($"Id:{product.Id}, Name:{product.Name}, Count: {product.Count}, Price: {product.Price}, Description: {product.Description}, Color:{product.Color},Category Id: {product.CategoryId}");
+        }
+
+        public async Task GetAllAsync()
+        {
+            var products = await _productService.GetAllAsync();
+            Console.WriteLine("Product Table:");
+            foreach (var product in products)
+            {
+                Console.WriteLine($"Id:{product.Id}, Name:{product.Name}, Count: {product.Count}, Price: {product.Price}, Description: {product.Description}, Color:{product.Color},Category Id: {product.CategoryId}");
+            }
+        }
+
+        public async Task SearchByNameAsync()
+        {
+            Console.WriteLine("Add Product Name:");
+        SearchProduct: string searchText = Console.ReadLine();
+            var products = await _productService.SearchByNameAsync(searchText);
+            if (products == null || !products.Any())
+            {
+                Console.WriteLine("Products Not Found! Please try again:");
+                goto SearchProduct;
+            }
+            else if (string.IsNullOrEmpty(searchText))
+            {
+                Console.WriteLine("Invalid input. Please try again:");
+                goto SearchProduct;
+            }
+            else if (string.IsNullOrWhiteSpace(searchText))
+            {
+                Console.WriteLine("Invalid input. Please try again:");
+                goto SearchProduct;
+            }
+            else
+            {
+                Console.WriteLine("Products:");
+                foreach (var product in products)
+                {
+                    Console.WriteLine($"Id:{product.Id}, Name:{product.Name}, Count: {product.Count}, Price: {product.Price}, Description: {product.Description}, Color:{product.Color},Category Id: {product.CategoryId}");
+                }
+            }
+        }
+
+        public async Task FilterByCategoryNameAsync()
+        {
+            Console.WriteLine("Add Category Name:");
+            FilterByCategoryName: string categoryName = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(categoryName))
+            {
+                Console.WriteLine("Invalid input. Please try again:");
+                goto FilterByCategoryName;
+            }
+            var products = await _productService.FilterByCategoryNameAsync(categoryName);
+            if (products == null || !products.Any())
+            {
+                Console.WriteLine("Category or Products Not Found! Please try again:");
+                goto FilterByCategoryName;
+            }
+            else
+            {
+                Console.WriteLine("Filtered Products:");
+                foreach(var product in products)
+                {
+                    Console.WriteLine($"Id:{product.Id}, Name:{product.Name}, Count: {product.Count}, Price: {product.Price}, Description: {product.Description}, Color:{product.Color},Category Id: {product.CategoryId}");
+                }
+            }
+
+        }
+        public async Task GetAllWithCategoryIdAsync()
+        {
+            Console.WriteLine("Add Category Id:");
+            GetAllWithCategoryId: string idStr = Console.ReadLine();
+            if (!int.TryParse(idStr,out int categoryId))
+            {
+                Console.WriteLine("Invalid input. Please try again:");
+                goto GetAllWithCategoryId;
+            }
+            var products = await _productService.GetAllWithCategoryIdAsync(categoryId);
+            if (products == null || !products.Any())
+            {
+                Console.WriteLine("Products Not Found Categories Id");
+                goto GetAllWithCategoryId;
+            }
+            else
+            {
+                Console.WriteLine($"Products in Category Id: {categoryId}");
+                foreach (var product in products)
+                {
+                    Console.WriteLine($"Id:{product.Id}, Name:{product.Name}, Count: {product.Count}, Price: {product.Price}, Description: {product.Description}, Color:{product.Color},Category Id: {product.CategoryId}");
+                }
+            }
+        }
+        public async Task SortWithPriceAsync(decimal? maxPrice = null) 
+        {
+
+            var products = await _productService.SortWithPriceAsync(maxPrice);
+            if (products == null || !products.Any())
+            {
+                Console.WriteLine("Products Not Found");
+            }
+            else
+            {
+                Console.WriteLine("Sorted Products");
+                foreach (var product in products.OrderBy(x=>x.Price))
+                {
+                    Console.WriteLine($"Id:{product.Id}, Name:{product.Name}, Count: {product.Count}, Price: {product.Price}, Description: {product.Description}, Color:{product.Color}");
+                }
+            }
+        }
+        public async Task SortByCreatedDateAsync()
+        {
+            var products = await _productService.SortByCreatedDateAsync(DateTime.MinValue);
+            if (products == null)
+            {
+                Console.WriteLine("Products Not Found");
+            }
+            else
+            {
+                Console.WriteLine("Product Sort by oldest to newest:");
+                foreach (var product in products.OrderBy(x => x.CreatedDate))
+                {
+                    Console.WriteLine($"Id:{product.Id}, Name:{product.Name}, Count: {product.Count}, Price: {product.Price}, Description: {product.Description}, Color:{product.Color}, Created Date: {product.CreatedDate}");
+                }
+            }
+        }
+        public async Task SearchByColorAsync()
+        {
+            Console.WriteLine("Add Product Color:");
+        SearchProductColor: string searchText = Console.ReadLine();
+            var products = await _productService.SearchByColorAsync(searchText);
+            if (products == null || !products.Any())
+            {
+                Console.WriteLine("Products Not Found! Please try again:");
+                goto SearchProductColor;
+            }
+            else if (string.IsNullOrEmpty(searchText))
+            {
+                Console.WriteLine("Invalid input. Please try again:");
+                goto SearchProductColor;
+            }
+            else if (string.IsNullOrWhiteSpace(searchText))
+            {
+                Console.WriteLine("Invalid input. Please try again:");
+                goto SearchProductColor;
+            }
+            else
+            {
+                Console.WriteLine("Color:");
+                foreach (var product in products)
+                {
+                    Console.WriteLine($"Id:{product.Id}, Name:{product.Name}, Count: {product.Count}, Price: {product.Price}, Description: {product.Description}, Color:{product.Color},Category Id: {product.CategoryId}");
+                }
+            }
         }
     }
     

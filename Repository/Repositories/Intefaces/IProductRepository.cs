@@ -12,7 +12,7 @@ namespace Repository.Repositories.Intefaces
         Task<IEnumerable<Product>> SearchByNameAsync(string searchName);
         Task<IEnumerable<Product>> FilterByCategoryName(string categoryName);
         Task<IEnumerable<Product>> GetAllWithCategoryId(int id);
-        Task<IEnumerable<Product>> SortWithPrice(decimal price);
+        Task<IEnumerable<Product>> SortWithPrice(decimal? maxPrice = null);
         Task<IEnumerable<Product>> SortByCreatedDate(DateTime date);
         Task<IEnumerable<Product>> SearchByColor(string searchText);
     }

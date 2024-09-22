@@ -6,4 +6,4 @@ using System.Linq.Expressions;
 //await categoryController.DeleteAsync();
 
 ProductController productController = new ProductController();
-await productController.UpdateAsync();
+await productController.SearchByColorAsync();

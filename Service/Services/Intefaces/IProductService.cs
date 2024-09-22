@@ -15,10 +15,10 @@ namespace Service.Services.Intefaces
         Task<Product> GetByIdAsync(int id);
         Task<IEnumerable<Product>> GetAllAsync();
         Task<IEnumerable<Product>> SearchByNameAsync(string searchName);
-        Task<IEnumerable<Product>> FilterByCategoryName(string categoryName);
-        Task<IEnumerable<Product>> GetAllWithCategoryId(int id);
-        Task<IEnumerable<Product>> SortWithPrice(decimal price);
-        Task<IEnumerable<Product>> SortByCreatedDate(DateTime date);
-        Task<IEnumerable<Product>> SearchByColor(string searchText);
+        Task<IEnumerable<Product>> FilterByCategoryNameAsync(string categoryName);
+        Task<IEnumerable<Product>> GetAllWithCategoryIdAsync(int id);
+        Task<IEnumerable<Product>> SortWithPriceAsync(decimal? maxPrice = null);
+        Task<IEnumerable<Product>> SortByCreatedDateAsync(DateTime date);
+        Task<IEnumerable<Product>> SearchByColorAsync(string searchText);
     }
 }
